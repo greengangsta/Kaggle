@@ -4,6 +4,10 @@ import pandas as pd
 td = pd.read_csv('train.csv')
 ts = pd.read_csv('test.csv')
 
+td.fillna(method='bfill',inplace=True)
+td.fillna(method='ffill',inplace=True)
+  
+
 x_td = td.iloc[:,2:].values
 x_test=ts.iloc[:,2:].values
 y_td=td.iloc[:,1:2].values
@@ -19,9 +23,9 @@ x_td[:,1]=  labelencoder_X.fit_transform(x_td[:,1])
 x_td[:,0]=  labelencoder_X.fit_transform(x_td[:,0])
 x_td[:,6]=  labelencoder_X.fit_transform(x_td[:,6])
 x_td[:,2]=  labelencoder_X.fit_transform(x_td[:,2])
-#x_td[:,8]=  labelencoder_X.fit_transform(x_td[:,8])
 x_td[:,9]=  labelencoder_X.fit_transform(x_td[:,9])
-print(x_td[0,:])
+x_td[:,8]=  labelencoder_X.fit_transform(x_td[:,8])
+print(x_td[:,8])
 onehotencoder = OneHotEncoder(categorical_features =[0])
 x_td= onehotencoder.fit_transform(x_td).toarray()
 labelencoder_y = LabelEncoder()
