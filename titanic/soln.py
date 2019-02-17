@@ -27,10 +27,13 @@ x_td[:,2]=  labelencoder_X.fit_transform(x_td[:,2])
 x_td[:,9]=  labelencoder_X.fit_transform(x_td[:,9])
 x_td[:,8]=  labelencoder_X.fit_transform(x_td[:,8])
 print(x_td[0:3,:])
-onehotencoder = OneHotEncoder(categorical_features =[0])
+onehotencoder = OneHotEncoder(categorical_features =[0,2,4,5,9])
 x_td= onehotencoder.fit_transform(x_td).toarray()
-labelencoder_y = LabelEncoder()
-# y_td= labelencoder_y.fit_transform(y)
+print(x_td[0,:])
+
+from sklearn.cross_validation import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(x_td, y_td, test_size = 0.2, random_state = 0)
+
 
 
 
