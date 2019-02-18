@@ -120,8 +120,17 @@ y_dst = classifier3.predict(x_ts)
 cm7 = confusion_matrix(y_test,y_pred4)
 cm8 = confusion_matrix(y_sub,y_dst)
 
+# Using Random Forest Classification
 
+from sklearn.ensemble import RandomForestClassifier
+classifier4= RandomForestClassifier(n_estimators=10,criterion='entropy')
+classifier4.fit(X_train,y_train)
 
+y_pred5 = classifier4.predict(X_test)
+y_rf = classifier4.predict(x_ts)
+
+cm9 = confusion_matrix(y_test,y_pred5)
+cm10 = confusion_matrix(y_sub,y_rf)
 
 
 
