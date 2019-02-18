@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 import pandas as pd
 
 td = pd.read_csv('train.csv')
@@ -34,6 +35,16 @@ print(x_td[0,:])
 from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(x_td, y_td, test_size = 0.2, random_state = 0)
 
+from sklearn.preprocessing import StandardScaler
+sc_X = StandardScaler()
+X_train = sc_X.fit_transform(X_train)
+X_test = sc_X.transform(X_test)
+
+from sklearn.linear_model import LogisticRegression
+classifier = LogisticRegression()
+classifier.fit(X_train,y_train)
+
+y_pred = classifier.predict(X_test)
 
 
 
