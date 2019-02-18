@@ -88,13 +88,22 @@ cm = confusion_matrix(y_test,y_pred)
 cm2 = confusion_matrix(y_res,y_sub)
 
 from sklearn.svm import SVC
-classifier1 = SVC(kernel='poly',degree=1)
+classifier1 = SVC(kernel='rbf')
 classifier1.fit(X_train,y_train)
 
 y_pred2 = classifier1.predict(X_test)
 cm3= confusion_matrix(y_test,y_pred2)
+y_svc = classifier1.predict(x_ts)
+cm4 = confusion_matrix(y_svc,y_sub)
 
+from sklearn.naive_bayes import GaussianNB
+classifier2 = GaussianNB()
+classifier2.fit(X_train,y_train)
 
+y_pred3 = classifier2.predict(X_test)
+cm5 = confusion_matrix(y_test,y_pred3)
+y_nb = classifier2.predict(x_ts)
+cm6 = confusion_matrix(y_sub,y_nb)
 
 
 
