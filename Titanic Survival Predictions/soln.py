@@ -6,6 +6,7 @@ import pandas as pd
 #Loading the dataset
 td = pd.read_csv('train.csv')
 ts = pd.read_csv('test.csv')
+sub = pd.read_csv('gender_submission.csv')
 
 # Filling the missing values
 td.fillna(method='bfill',inplace=True)
@@ -18,6 +19,7 @@ ts.fillna(method='ffill',inplace=True)
 x_td = td.iloc[:,2:].values
 x_ts=ts.iloc[:,1:].values
 y_td=td.iloc[:,1:2].values
+y_sub = sub.iloc[:,1].values
 print(x_td[0,:])
 print(x_ts[0,:])
 
@@ -83,6 +85,16 @@ y_res = classifier.predict(x_ts)
 # Making the confusion matrix 
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test,y_pred)
+cm2 = confusion_matrix(y_res,y_sub)
+
+from sklearn.svm import SVC
+classifier1 = SVC(kernel='poly',degree=1)
+classifier1.fit(X_train,y_train)
+
+y_pred2 = classifier1.predict(X_test)
+cm3= confusion_matrix(y_test,y_pred2)
+
+
 
 
 
