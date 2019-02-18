@@ -66,12 +66,14 @@ X_train, X_test, y_train, y_test = train_test_split(x_td, y_td, test_size = 0.25
 
 
 #Scaling the input features of training and test data
+"""
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 x_ts = sc_X.fit_transform(x_ts)
 
+"""
 #Training the logistic regression model
 from sklearn.linear_model import LogisticRegression
 classifier = LogisticRegression()
@@ -87,6 +89,7 @@ from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test,y_pred)
 cm2 = confusion_matrix(y_res,y_sub)
 
+# Using support vector machine 
 from sklearn.svm import SVC
 classifier1 = SVC(kernel='rbf')
 classifier1.fit(X_train,y_train)
@@ -96,6 +99,7 @@ cm3= confusion_matrix(y_test,y_pred2)
 y_svc = classifier1.predict(x_ts)
 cm4 = confusion_matrix(y_svc,y_sub)
 
+# Using Naive_Bayes 
 from sklearn.naive_bayes import GaussianNB
 classifier2 = GaussianNB()
 classifier2.fit(X_train,y_train)
@@ -104,6 +108,17 @@ y_pred3 = classifier2.predict(X_test)
 cm5 = confusion_matrix(y_test,y_pred3)
 y_nb = classifier2.predict(x_ts)
 cm6 = confusion_matrix(y_sub,y_nb)
+
+# Using Decision trees
+from sklearn.tree import DecisionTreeClassifier
+classifier3 = DecisionTreeClassifier(criterion='entropy')
+classifier3.fit(X_train,y_train)
+
+y_pred4 = classifier3.predict(X_test)
+y_dst = classifier3.predict(x_ts)
+
+cm7 = confusion_matrix(y_test,y_pred4)
+cm8 = confusion_matrix(y_sub,y_dst)
 
 
 
