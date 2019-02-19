@@ -66,14 +66,14 @@ X_train, X_test, y_train, y_test = train_test_split(x_td, y_td, test_size = 0.25
 
 
 #Scaling the input features of training and test data
-"""
+
 from sklearn.preprocessing import StandardScaler
 sc_X = StandardScaler()
 X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 x_ts = sc_X.fit_transform(x_ts)
 
-"""
+
 #Training the logistic regression model
 from sklearn.linear_model import LogisticRegression
 classifier = LogisticRegression()
@@ -131,10 +131,10 @@ y_rf = classifier4.predict(x_ts)
 cm9 = confusion_matrix(y_test,y_pred5)
 cm10 = confusion_matrix(y_sub,y_rf)
 
-y_num = [np.arange(892,1310,dtype=np.int64) ,y_rf]
+y_num = [np.arange(892,1310,dtype=np.int64) ,y_nb]
 y_num = np.transpose(y_num)
 
-y_rf_sol = pd.DataFrame(y_num,columns=['PassengerId','Survived']).to_csv('y_rf_sol.csv')
+y_nb_sol = pd.DataFrame(y_num,columns=['PassengerId','Survived']).to_csv('y_nb_sol.csv')
 
 
 
