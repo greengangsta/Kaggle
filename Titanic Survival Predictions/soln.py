@@ -121,7 +121,6 @@ cm7 = confusion_matrix(y_test,y_pred4)
 cm8 = confusion_matrix(y_sub,y_dst)
 
 # Using Random Forest Classification
-
 from sklearn.ensemble import RandomForestClassifier
 classifier4= RandomForestClassifier(n_estimators=10,criterion='entropy')
 classifier4.fit(X_train,y_train)
@@ -131,6 +130,11 @@ y_rf = classifier4.predict(x_ts)
 
 cm9 = confusion_matrix(y_test,y_pred5)
 cm10 = confusion_matrix(y_sub,y_rf)
+
+y_num = [np.arange(892,1310,dtype=np.int64) ,y_rf]
+y_num = np.transpose(y_num)
+
+y_rf_sol = pd.DataFrame(y_num,columns=['PassengerId','Survived']).to_csv('y_rf_sol.csv')
 
 
 
