@@ -9,10 +9,16 @@ ts = pd.read_csv('test.csv')
 sub = pd.read_csv('gender_submission.csv')
 
 # Filling the missing values
+td['Cabin']=td['Cabin'].fillna('U')
+ts['Cabin']=ts['Cabin'].fillna('U')
+td['Embarked']=td['Embarked'].fillna('N')
+ts['Embarked']=ts['Embarked'].fillna('N')
+"""
 td.fillna(method='bfill',inplace=True)
 td.fillna(method='ffill',inplace=True)
 ts.fillna(method='bfill',inplace=True)
 ts.fillna(method='ffill',inplace=True)
+"""
 
   
 #Selecting out the training and test data's dependent and independent variables
@@ -28,8 +34,12 @@ from sklearn.preprocessing import Imputer
 imputer=Imputer(missing_values ='NaN',strategy = 'mean',axis = 0)
 imputer = imputer.fit(x_td[:,3:4])
 x_td[:,3:4] = imputer.transform(x_td[:,3:4])
+imputer = imputer.fit(x_td[:,7:8])
+x_td[:,7:8] = imputer.transform(x_td[:,7:8])
 imputer = imputer.fit(x_ts[:,3:4])
 x_ts[:,3:4] = imputer.transform(x_ts[:,3:4])
+imputer = imputer.fit(x_ts[:,7:8])
+x_ts[:,7:8] = imputer.transform(x_ts[:,7:8])
 
 
 
@@ -43,7 +53,7 @@ x_td[:,2]=  labelencoder_X.fit_transform(x_td[:,2])
 x_td[:,9]=  labelencoder_X.fit_transform(x_td[:,9])
 x_td[:,8]=  labelencoder_X.fit_transform(x_td[:,8])
 print(x_td[0:3,:])
-onehotencoder = OneHotEncoder(categorical_features =[0,2,9])
+onehotencoder = OneHotEncoder(categorical_features =[0,2])
 x_td= onehotencoder.fit_transform(x_td).toarray()
 print(x_td[0,:])
 
@@ -56,13 +66,13 @@ x_ts[:,2]=  labelencoder_X.fit_transform(x_ts[:,2])
 x_ts[:,9]=  labelencoder_X.fit_transform(x_ts[:,9])
 x_ts[:,8]=  labelencoder_X.fit_transform(x_ts[:,8])
 print(x_ts[0:3,:])
-onehotencoder = OneHotEncoder(categorical_features =[0,2,9])
+onehotencoder = OneHotEncoder(categorical_features =[0,2])
 x_ts= onehotencoder.fit_transform(x_ts).toarray()
 print(x_ts[0,:])
 
 #Splitting the traing data into training and cross validation
 from sklearn.cross_validation import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(x_td, y_td, test_size = 0.25, random_state = 0)
+X_train, X_test, y_train, y_test = train_test_split(x_td, y_td, test_size = 0.10, random_state = 0)
 
 
 #Scaling the input features of training and test data
@@ -131,10 +141,10 @@ y_rf = classifier4.predict(x_ts)
 cm9 = confusion_matrix(y_test,y_pred5)
 cm10 = confusion_matrix(y_sub,y_rf)
 
-y_num = [np.arange(892,1310,dtype=np.int64) ,y_nb]
+y_num = [np.arange(892,1310,dtype=np.int64) ,y_svc]
 y_num = np.transpose(y_num)
 
-y_nb_sol = pd.DataFrame(y_num,columns=['PassengerId','Survived']).to_csv('y_nb_sol.csv')
+y_nb_sol = pd.DataFrame(y_num,columns=['PassengerId','Survived']).to_csv('y_svc_sol.csv')
 
 
 
