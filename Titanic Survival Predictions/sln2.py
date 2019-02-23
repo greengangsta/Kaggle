@@ -8,11 +8,13 @@ td = pd.read_csv('train.csv')
 ts = pd.read_csv('test.csv')
 sub = pd.read_csv('gender_submission.csv')
 
+
 # Filling the missing values
 td['Cabin']=td['Cabin'].fillna('U')
 ts['Cabin']=ts['Cabin'].fillna('U')
 td['Embarked']=td['Embarked'].fillna('N')
 ts['Embarked']=ts['Embarked'].fillna('N')
+
 """
 td.fillna(method='bfill',inplace=True)
 td.fillna(method='ffill',inplace=True)
@@ -20,15 +22,15 @@ ts.fillna(method='bfill',inplace=True)
 ts.fillna(method='ffill',inplace=True)
 """
 
-  
+  pd.DataFrame
 #Selecting out the training and test data's dependent and independent variables
 x_td = td.iloc[:,2:].values
 x_ts=ts.iloc[:,1:].values
 y_td=td.iloc[:,1:2].values
 y_sub = sub.iloc[:,1].values
-print(x_td[0,:])
+tp = [x_td,x_ts]
 print(x_ts[0,:])
-
+np
 #Filling the missing values through imputer
 from sklearn.preprocessing import Imputer
 imputer=Imputer(missing_values ='NaN',strategy = 'mean',axis = 0)
