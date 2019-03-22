@@ -9,14 +9,6 @@ ts = pd.read_csv('test.csv')
 sub = pd.read_csv('gender_submission.csv')
 
 
-
-# Filling the missing values
-td['Cabin']=td['Cabin'].fillna('U')
-ts['Cabin']=ts['Cabin'].fillna('U')
-td['Embarked']=td['Embarked'].fillna('N')
-ts['Embarked']=ts['Embarked'].fillna('N')
-
-
 #Selecting out the training and test data's dependent and independent variables
 x_td = td.iloc[:,2:]
 x_ts=ts.iloc[:,1:]
