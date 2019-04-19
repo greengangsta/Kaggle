@@ -1,2 +1,2 @@
 # Kaggle
-Some of the machine learning(and deep learning) competitions and non-competitive implementaions.
+Some of the machine learning(and deep learning) competitive and non-competitive implementaions.
