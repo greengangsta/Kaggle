@@ -55,3 +55,36 @@ input_sequences = pad_sequences(input_sequences,maxlen=max_sequence_length,paddi
 target_sequences = pad_sequences(target_sequences,maxlen=max_sequence_length,padding='post')
 print('Shape of data tensor : ',input_sequences.shape)
 
+#Loading the word vectors from stanford glove 6B 100D
+word2vec={}
+with open(os.path.join('glove.6B.100d.txt')) as f:
+	for line in f:
+		values=line.split()
+		word = values[0]
+		vec = np.asarray(values[1:],dtype='float32')
+		word2vec[word]=vec
+	print('Found %s word vectors.'%len(word2vec))
+
+
+# Creating the embedding matrix
+print('Filling the embedding matrix...')
+num_words = min(MAX_VOCAB_SIZE,len(word2idx))
+embedding_matrix = np.zeros((num_words,EMBEDDING_DIM))
+for words,i in word2idx.items():
+	if i < MAX_VOCAB_SIZE:
+		embedding_vector = word2vec.get(word)
+		if embeding_vector is not None :
+			embedding_matrix[i] = embedding_vector
+			
+# Creating one-hot targets
+one_hot_targets = np.zeros((len(input_sequences),max_sequence_length,num_words))
+for i,target_sequence in enumerate(target_sequences):
+	for t,word in enumerate(target_sequence):
+		if word>0 :
+			one_hot_targets[i,t,word] =1
+			
+
+#Building the model
+	
+
+
