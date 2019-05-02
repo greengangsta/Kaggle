@@ -85,6 +85,29 @@ for i,target_sequence in enumerate(target_sequences):
 			
 
 #Building the model
+embedding_layer = Embedding(num_words,EMBEDDING_DIM,weights=[embedding_matrix],trainable=False)
+print('Building the model....')
+input_ = Input(shape = (max_sequence_length,))
+initial_h = Input(shape=(LATENT_DIM,))
+initial_c = Input(shape=(LATENT_DIM,))
+x = embedding_layer(input_)
+lstm = LSTM(LATEN_DIM,return_sequences = True,return_state=True)
+x,_,_ = lstm(x,initial_state=[initial_h,initial_c])
+dense = Dense(num_words,activation='softmax')
+output= dense(x)
+
+model = Model([input_,initial_h,initial_c],output)
+model.compile(loss = 'categorical_crossentropy',optimizer=Adam(lr=0.01),metrics = ['accuracy'])
+
+#Training the model
+print('Training the model....')
+z = np.zeros((len(input_sequence),LATENT_DIM))
+r = model.fit([input_sequences,z,z],
+			  one_hot_targets,
+			  batch_size = BATCH_SIZE,
+			  epoch = EPOCHS,
+			  validation_split = VALIDATION_SPLIT)
+
 	
 
 
