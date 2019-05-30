@@ -41,3 +41,35 @@ for line in open('hin.txt',encoding='UTF-8'):
 	target_texts.append(target_text)
 	target_texts_inputs.append(target_text_input)
 print("num samples : ",len(input_texts))
+
+
+# tokenizing the inputs
+tokenizer_inputs = Tokenizer(num_words = MAX_NUM_WORDS)
+tokenizer_inputs.fit_on_texts(input_texts)
+input_sequences = tokenizer_inputs.texts_to_sequences(input_texts)
+
+word2idx_inputs = tokenizer_inputs.word_index
+print('Found %s unique input tokens. '%len(word2idx_inputs))
+max_len_input = max(len(s) for s in input_sequences)
+
+#tokenize the outputs
+tokenizer_outputs = Tokenizer(num_words = MAX_NUM_WORDS,filters ='')
+tokenizer_outputs.fit_on_texts(target_texts + target_texts_inputs)
+target_sequences = tokenizer_outputs.texts_to_sequences(target_texts)
+target_sequences_inputs = tokenizer_outputs.texts_to_sequences(target_texts_inputs)
+
+word2idx_outputs = tokenizer_outputs.word_index
+print('Found %s unique output tokens. ' %len(word2idx_outputs))
+
+num_words_output = len(word2idx_outputs) +1 
+max_len_target = max(len(s) for s in target_sequences)
+
+#padding the sequences 
+encoder_inputs = pad_sequences(input_sequences,maxlen = max_len_input)
+print("encoderdata.shape : ",encoder_inputs.shape)
+print("encoder_data[0] : " , encoder_inputs[0])
+decoder_inputs = pad_sequences(target_sequences_inputs,maxlen = max_len_target,padding='post')
+print("deoderdata.shape : ",decoder_inputs.shape)
+print("decoder_data[0] : " , decoder_inputs[0])
+
+decoder_targets = pad_sequences(target_sequences,maxlen = max_len_target,padding='post')
