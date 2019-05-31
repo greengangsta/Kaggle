@@ -73,3 +73,31 @@ print("deoderdata.shape : ",decoder_inputs.shape)
 print("decoder_data[0] : " , decoder_inputs[0])
 
 decoder_targets = pad_sequences(target_sequences,maxlen = max_len_target,padding='post')
+
+#loading the pretrained vectors
+print('Loading the vectors...')
+word2vec = {}
+with open('glove.6B.100d.txt',encoding='utf-8') as f:
+	for line in f:
+		values = line.split()
+		word = values[0]
+		vec = np.asarray(values[1:],dtype = 'float32')
+		word2vec[word] = vec
+print('Found %s word vectors. ' %len(word2vec))
+
+
+#preparing the embedding matrix
+print('Filling pre-trained embeddings...')
+num_words = min(MAX_NUM_WORDS,len(word2idx_inputs) + 1)
+embedding_matrix = np.zeros((num_words,EMBEDDING_DIM))
+for word,i in word2idx_inputs.items() :
+	if i < MAX_NUM_WORDS :
+		embedding_vector = word2vec.get(word)
+	if embedding_vector is not None :
+		embedding_matrix[i] = embedding_vector
+
+#vreating the embedding layer
+embedding_layer = Embedding(num_words,EMBEDDING_DIM,weights = embedding_matrix,input_length=max_len_input)
+
+# creating one-hot encoded targets
+decoder_targets_one_hot = np.zeros((len(input_texts),max_len_target,num_words_output),dtype = 'float32')
