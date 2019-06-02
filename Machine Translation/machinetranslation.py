@@ -97,7 +97,34 @@ for word,i in word2idx_inputs.items() :
 		embedding_matrix[i] = embedding_vector
 
 #vreating the embedding layer
-embedding_layer = Embedding(num_words,EMBEDDING_DIM,weights = embedding_matrix,input_length=max_len_input)
+embedding_layer = Embedding(num_words,EMBEDDING_DIM,weights = [embedding_matrix],input_length=max_len_input)
 
 # creating one-hot encoded targets
 decoder_targets_one_hot = np.zeros((len(input_texts),max_len_target,num_words_output),dtype = 'float32')
+for i,d in enumerate(decoder_targets):
+	for t,word in enumerate(d):
+		decoder_targets_one_hot[i,t,word] = 1
+
+# Building the model 
+encoder_inputs_placeholder = Input(shape=(max_len_input,))
+x = embedding_layer(encoder_inputs_placeholder)
+encoding = LSTM(LATENT_DIM,return_state=True,dropout=0.5)
+encoder_outputs,h,c = encoding(x)
+#encoder_outputs,h = encoder(x)
+
+encoder_states = [h,c]
+decoder_inputs_placeholder = Input(shape=(max_len_target,))
+#this word embedding will not use pre trained vectors
+decoder_embedding = Embedding(num_words_output,LATENT_DIM)
+decoder_inputs_x = decoder_embedding(decoder_inputs_placeholder)
+#since the decocder is a to-many model we want to have return sequences to be true
+
+decoder_lstm = LSTM(LATENT_DIM,return_sequences = True,return_state=True,dropout=0.5)
+decoder_outputs,_,_ = decoder_lstm(decoder_inputs_x,initial_state = encoder_states)
+
+#final layer for predictions
+decoder_dense = Dense(num_words_output,activation='softmax')
+decoder_outputs = decoder_dense(decoder_outputs)
+
+#Creating the model object
+model = Model([encoder_inputs_placeholder,decoder_inputs_placeholder],decoder_outputs)
