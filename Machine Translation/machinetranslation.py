@@ -8,6 +8,7 @@ from keras.layers import Input,LSTM,GRU,Dense,Embedding
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.utils import to_categorical
+import pickle
 
 
 #Defining some parameters
@@ -128,3 +129,32 @@ decoder_outputs = decoder_dense(decoder_outputs)
 
 #Creating the model object
 model = Model([encoder_inputs_placeholder,decoder_inputs_placeholder],decoder_outputs)
+
+#compiling and training the model
+model.compile(optimizer='rmsprop',
+			  loss = 'categorical_crossentropy',
+			  metrics=['accuracy'])
+
+r = model.fit([encoder_inputs,decoder_inputs],
+			  decoder_targets_one_hot,
+			  batch_size = BATCH_SIZE,
+			  epochs = EPOCHS,
+			  validation_split = 0.2)
+
+#Plotting the loss and accuracy
+plt.plot(r.history['loss'],label='loss')
+plt.plot(r.history['val_loss'],label='val_loss')
+plt.legend()
+plt.show()
+
+plt.plot(r.history['acc'],label='acc')
+plt.plot(r.history['val_acc'],label='val_acc')
+plt.legend()
+plt.show()
+
+#saving the model
+with open('machine_translation.pickle','wb') as f:
+	pickle.dump(model,f)
+
+
+
