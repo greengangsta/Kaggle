@@ -156,5 +156,49 @@ plt.show()
 with open('machine_translation.pickle','wb') as f:
 	pickle.dump(model,f)
 
+model.save('s2s.h5')
+
+#Macking the predictions 
+encoder_model = Model(encoder_inputs_placeholder,encoder_states)
+decoder_state_input_h = Input(shape=(LATENT_DIM,))
+decoder_state_input_c  = Input(shape= (LATENT_DIM,))
+decoder_states_inputs = [decoder_state_input_h,decoder_state_input_c]
+
+# decoder_state_inputs = [decoder_state_input_h]  --for GRU
+decoder_inputs_single = Input(shape=(1,))
+decoder_inputs_single_x = decoder_embedding(decoder_inputs_single)
+decoder_outputs,h,c = decoder_lstm(decoder_inputs_single_x,initial_state = decoder_states_inputs)
+
+decoder_states = [h,c]
+
+decoder_outputs = decoder_dense(decoder_outputs)
+
+decoder_model = Model([decoder_inputs_single] + decoder_states_inputs,[decoder_outputs] + decoder_states)
+
+idx2word_eng = {v:k for k,v in word2idx_inputs.items()}
+
+idx2word_hindi = {v:k for k,v in word2idx_outputs.items()}
+
+def decode_sequence(input_seq):
+	states_value = encoder_model.predict(input_seq)
+	target_seq = np.zeros((1,1))
+	target_seq[0,0] = word2idx_outputs['<sos>']
+	eos = word2idx_outputs['<eos>']
+	#creating the translation
+	output_sentence = []
+	for _ in range(max_len_target):
+		output_tokens,h,c = decoder_model.predict([target_seq]+states_value)
+		idx = np.argmax(output_tokens[0,0,:])
+		if eos == idx:
+			break
+		word = ''
+		if idx > 0:
+			word = idx2word_hindi[idx]
+			output_sentence.append(word)
+		target_seq[0,0] = idx
+		states_value = [h,c]
+	return ' '.join(output_sentence)
+		
+	
 
 
