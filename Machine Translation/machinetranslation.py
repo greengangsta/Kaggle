@@ -201,4 +201,16 @@ def decode_sequence(input_seq):
 		
 	
 
+while True :
+	i = np.random.choice(len(input_texts))
+	input_seq = encoder_inputs[i:i+1]
+	translation = decode_sequence(input_seq)
+	print('_')
+	print('Input:',input_texts[i])
+	print('Translation:',translation)
+	ans = input("______generate another? [y/n]_______")
+	if ans and ans[0].lower().startswith('n'):
+		break
+	
+
 
