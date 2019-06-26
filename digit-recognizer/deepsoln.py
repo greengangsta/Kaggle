@@ -60,9 +60,36 @@ classifier.add(Dense(units = 10,activation='softmax',init='glorot_uniform'))
 
 classifier.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
 
-classifier.fit(X_train,y_train,batch_size=128,epochs=50)
+classifier.fit(X_train,y_train,batch_size=128,epochs=10)
+
+
+# code for saving and loading the model
+
+from keras.models import model_from_json
+
+classifier_json = classifier.to_json()
+
+with open('classifier.json','w') as json_file:
+	json_file.write(classifier_json)
+	
+classifier.save_weights('classifier.h5')
+
+json_file = open('classifier.json','r')
+loaded_classifier_json = json_file.read()
+json_file.close()
+
+loaded_classifier = model_from_json(loaded_classifier_json)
+
+loaded_classifier.load_weights('classifier.h5')
+
+loaded_classifier.compile(optimizer='adam',loss='categorical_crossentropy',metrics=['accuracy'])
+
 
 y_pred_ann = classifier.predict(X_test)
+
+y_pred_ann_loaded = loaded_classifier.predict(X_test)
+
+loaded_classifier.fit(X_train,y_train,batch_size=128,epochs=20)
 
 y_pred_ann = np.argmax(y_pred_ann,axis=-1)
 y_test = np.argmax(y_test,axis=-1)
