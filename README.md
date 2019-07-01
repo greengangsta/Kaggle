@@ -3,8 +3,9 @@ Some of the machine learning(and deep learning) competitive and non-competitive 
 
 Neural Machine Translation<br>
 May 2019 - Jun 2019<br>
-Machine Translation using LSTM with a seq2seq architecture for translation from English sentences to Hindi sentences.<hr>
-![alt text](http:///github.com/greengangsta/Kaggle/blob/master/Machine%20Translation/to/Screenshot(114).png
+Machine Translation using LSTM with a seq2seq architecture for translation from English sentences to Hindi sentences.
+![alt text](https:///github.com/greengangsta/Kaggle/blob/master/Machine%20Translation/to/Screenshot(114).png)
+<hr>
 Toxic Comment Classification<br>
 Apr 2019 - May 2019<br>
 Classifying toxic comments from the internet into 6 classes as multilabels and calculating the probablity for each class. It's an old Kaggle competition problem. Achieved accuracy of 98% appx on dev set . While accuracy on Kaggle was 91.2%.<hr>
