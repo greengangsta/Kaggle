@@ -4,7 +4,7 @@ Some of the machine learning(and deep learning) competitive and non-competitive 
 Neural Machine Translation<br>
 May 2019 - Jun 2019<br>
 Machine Translation using LSTM with a seq2seq architecture for translation from English sentences to Hindi sentences.
-![alt text](https:///github.com/greengangsta/Kaggle/Machine%20Translation/to/Screenshot(114).png)
+![alt text](https:///github.com/greengangsta/Kaggle/Machine Translation/to/Screenshot(114).png)
 <hr>
 Toxic Comment Classification<br>
 Apr 2019 - May 2019<br>
