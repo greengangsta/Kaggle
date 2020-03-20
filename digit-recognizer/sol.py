@@ -26,6 +26,12 @@ X_train = sc_X.fit_transform(X_train)
 X_test = sc_X.transform(X_test)
 x=sc_X.transform(x)
 
+import pickle
+#scaler_string = pickle.dumps(sc_X)
+#open('sclaer.txt','wb').write(scaler_string)
+f = open('scaler.txt','rb')
+scaler = pickle.loads(f.read())
+type(scaler)
 
 from sklearn.svm import SVC
 classifier1 = SVC(kernel='linear')
