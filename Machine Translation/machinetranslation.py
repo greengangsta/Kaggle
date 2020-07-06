@@ -97,7 +97,7 @@ for word,i in word2idx_inputs.items() :
 	if embedding_vector is not None :
 		embedding_matrix[i] = embedding_vector
 
-#vreating the embedding layer
+#creating the embedding layer
 embedding_layer = Embedding(num_words,EMBEDDING_DIM,weights = [embedding_matrix],input_length=max_len_input)
 
 # creating one-hot encoded targets

@@ -65,6 +65,7 @@ classifier.fit(X_train,y_train,batch_size=128,epochs=10)
 
 # code for saving and loading the model
 
+
 from keras.models import model_from_json
 
 classifier_json = classifier.to_json()
@@ -102,6 +103,18 @@ cmann = confusion_matrix(y_test,y_pred_ann)
 y_num=np.column_stack((np.arange(1,28001,dtype=np.int64) ,y_ann))
 y_ann_sol = pd.DataFrame(y_num,columns=['ImageId','Label']).to_csv('y_ann_sol2.csv')
 
+
+import matplotlib.pyplot as plt
+for i in range(4):
+    img = np.reshape(X_test[i],(1,784))
+    prediction = loaded_classifier.predict(img)
+    prediction = np.argmax(prediction, axis = -1)
+    img = np.reshape(img, (28,28))
+    plt.imshow(img,cmap = 'gray')
+    plt.title('predicted label : ' + str(prediction))
+random = loaded_classifier.predict(np.reshape(X_test[1],(1,784)))
+cv2.reshape()
+print()
 
 
 
